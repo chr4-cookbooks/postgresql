@@ -18,7 +18,20 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# The postgresql version to use
 default['postgresql']['version'] = '9.5'
+
+# Path to configuration directory.
+# Not used by this cookbook, but present for compatibility reasons with the heavywater cookbook.
+default['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['version']}/main"
+
+# The postgresql service name (mostly here for compatibility reasons with the heavywater cookbook)
+default['postgresql']['server']['service_name'] = 'postgresql'
+
+# Reload service by default upon configuration changes.
+# Change this to :restart in case you want to restart the service when a configuration file changes.
+# NOTE: Using :restart will cause service interuptions.
+default['postgresql']['server']['config_change_notify'] = :reload
 
 # Packages
 default['postgresql']['client']['packages'] = ["postgresql-client-#{node['postgresql']['version']}", 'libpq-dev']

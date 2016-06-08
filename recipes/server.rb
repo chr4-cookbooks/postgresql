@@ -38,11 +38,10 @@ template "/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf" do
   source 'pg_hba.conf.erb'
 end
 
-service 'postgresql' do
+service node['postgresql']['server']['service_name'] do
   supports restart: true, reload: true, status: true
   action [:enable, :start]
 
-  # TODO: Support :restart, too
-  subscribes :reload, "template[/etc/postgresql/#{node['postgresql']['version']}/main/postgresql.conf]"
-  subscribes :reload, "template[/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf]"
+  subscribes node['postgresql']['server']['config_change_notify'], "template[/etc/postgresql/#{node['postgresql']['version']}/main/postgresql.conf]"
+  subscribes node['postgresql']['server']['config_change_notify'], "template[/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf]"
 end
