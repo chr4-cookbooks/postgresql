@@ -17,12 +17,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-
+#
 # This recipe is included by the database cookboo
 
 include_recipe 'postgresql::apt_repository'
 
-package "postgresql-#{node['postgresql']['version']}"
+package node['postgresql']['server']['packages']
 
 template "/etc/postgresql/#{node['postgresql']['version']}/main/postgresql.conf" do
   owner 'postgres'

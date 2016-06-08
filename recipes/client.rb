@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: postgresql
-# Attributes:: default
+# Recipe:: client
 #
 # Copyright 2016, Chris Aumann
 #
@@ -18,9 +18,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-default['postgresql']['version'] = '9.5'
+include_recipe 'postgresql::apt_repository'
 
-# Packages
-default['postgresql']['client']['packages'] = ["postgresql-client-#{node['postgresql']['version']}", 'libpq-dev']
-default['postgresql']['server']['packages'] = ["postgresql-#{node['postgresql']['version']}"]
-default['postgresql']['contrib']['packages'] = ["postgresql-contrib-#{node['postgresql']['version']}"]
+package node['postgresql']['client']['packages']
