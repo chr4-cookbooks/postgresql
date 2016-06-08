@@ -1,0 +1,17 @@
+# Deployed by Chef for <%= node['fqdn'] %>
+
+<% node['postgresql']['config'].sort.each do |key, value| %>
+<% next if value.nil? -%>
+<%= key %> = <%=
+  case value
+  when String
+    "'#{value}'"
+  when TrueClass
+    'on'
+  when FalseClass
+    'off'
+  else
+    value
+  end
+%>
+<% end %>

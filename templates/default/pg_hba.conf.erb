@@ -1,0 +1,9 @@
+# Deployed by Chef for <%= node['fqdn'] %>
+
+<% node['postgresql']['pg_hba'].each do |auth| -%>
+  <% if auth['addr'] %>
+<%= auth['type'] %> <%= auth['db'] %> <%= auth['user'] %> <%= auth['addr'] %> <%= auth['method'] %>
+  <% else %>
+<%= auth['type'] %> <%= auth['db'] %> <%= auth['user'] %> <%= auth['method'] %>
+  <% end %>
+<% end %>
