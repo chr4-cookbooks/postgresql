@@ -1,9 +1,10 @@
 # Deployed by Chef for <%= node['fqdn'] %>
 
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
 <% node['postgresql']['pg_hba'].each do |auth| -%>
   <% if auth['addr'] %>
-<%= auth['type'] %> <%= auth['db'] %> <%= auth['user'] %> <%= auth['addr'] %> <%= auth['method'] %>
+<%= auth['type'].ljust(7) %> <%= auth['db'].ljust(15) %> <%= auth['user'].ljust(15) %> <%= auth['addr'].ljust(23) %> <%= auth['method'] %>
   <% else %>
-<%= auth['type'] %> <%= auth['db'] %> <%= auth['user'] %> <%= auth['method'] %>
+<%= auth['type'].ljust(7) %> <%= auth['db'].ljust(15) %> <%= auth['user'].ljust(15) %>                         <%= auth['method'] %>
   <% end %>
 <% end %>
