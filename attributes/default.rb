@@ -44,3 +44,7 @@ default['postgresql']['contrib']['packages'] = ["postgresql-contrib-#{node['post
 # Data bag configuration for certificates
 default['postgresql']['certificate']['data_bag_item'] = node['fqdn']
 default['postgresql']['certificate']['data_bag_secret'] = '/etc/chef/certificates_data_bag_secret'
+
+# Unused attribute, here for compatibility with database cookbook. Required by:
+# https://github.com/chef-cookbooks/database/blob/master/libraries/provider_database_postgresql.rb#L131
+default['postgresql']['password']['postgres'] = nil
