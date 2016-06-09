@@ -40,3 +40,7 @@ default['postgresql']['server']['config_change_notify'] = :reload
 default['postgresql']['client']['packages'] = ["postgresql-client-#{node['postgresql']['version']}", 'libpq-dev']
 default['postgresql']['server']['packages'] = ["postgresql-#{node['postgresql']['version']}"]
 default['postgresql']['contrib']['packages'] = ["postgresql-contrib-#{node['postgresql']['version']}"]
+
+# Data bag configuration for certificates
+default['postgresql']['certificate']['data_bag_item'] = node['fqdn']
+default['postgresql']['certificate']['data_bag_secret'] = '/etc/chef/certificates_data_bag_secret'
