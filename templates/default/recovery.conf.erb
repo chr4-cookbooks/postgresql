@@ -1,0 +1,44 @@
+# Deployed by Chef for <%= node['fqdn'] %>
+
+# Define restore command and trigger file
+restore_command = '<%= node['postgresql']['recovery']['restore_command'] %>'
+trigger_file = '/var/lib/postgresql/<%= node['postgresql']['version'] %>/master_trigger'
+
+<% if node['postgresql']['recovery']['recovery_target_time'] %>
+# This parameter specifies the time stamp up to which recovery will proceed. At most one of
+# recovery_target_time, recovery_target_name or recovery_target_xid can be specified. The default is
+# to recover to the end of the WAL log. The precise stopping point is also influenced by
+# recovery_target_inclusive.
+recovery_target_time = '<%= node['postgresql']['recovery']['recovery_target_time'] %>'
+
+<% elsif node['postgresql']['recovery']['recovery_target_xid'] %>
+# This parameter specifies the transaction ID up to which recovery will proceed. Keep in mind that
+# while transaction IDs are assigned sequentially at transaction start, transactions can complete in
+# a different numeric order. The transactions that will be recovered are those that committed before
+# (and optionally including) the specified one. At most one of recovery_target_xid,
+# recovery_target_name or recovery_target_time can be specified. The default is to recover to the
+# end of the WAL log. The precise stopping point is also influenced by recovery_target_inclusive.
+recovery_target_xid = '<%= node['postgresql']['recovery']['recovery_target_xid'] %>'
+
+<% else %>
+# No recovery target was given, therefore replicating from master
+primary_conninfo = '<%= node['postgresql']['recovery']['primary_conninfo'] %>'
+standby_mode = 'on'
+
+# Specifies recovering into a particular timeline. The default is to recover along the same timeline
+# that was current when the base backup was taken. Setting this to latest recovers to the latest
+# timeline found in the archive, which is useful in a standby server. Other than that you only need
+# to set this parameter in complex re-recovery situations, where you need to return to a state that
+# itself was reached after a point-in-time recovery.
+recovery_target_timeline = 'latest'
+<% end %>
+
+<% if node['postgresql']['recovery']['pause_at_recovery_target'] %>
+# Specifies whether recovery should pause when the recovery target is reached. The default is true.
+# This is intended to allow queries to be executed against the database to check if this recovery
+# target is the most desirable point for recovery. The paused state can be resumed by using
+# pg_xlog_replay_resume() (See Table 9-59), which then causes recovery to end. If this recovery
+# target is not the desired stopping point, then shutdown the server, change the recovery target
+# settings to a later target and restart to continue recovery.
+pause_at_recovery_target = <%= node['postgresql']['recovery']['pause_at_recovery_target'] %>
+<% end %>
