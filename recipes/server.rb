@@ -42,6 +42,7 @@ service node['postgresql']['server']['service_name'] do
   supports restart: true, reload: true, status: true
   action [:enable, :start]
 
+  # Reload immediately on pg_hba.conf changes, so connections for setting up the database will work
   subscribes node['postgresql']['server']['config_change_notify'], "template[/etc/postgresql/#{node['postgresql']['version']}/main/postgresql.conf]"
-  subscribes node['postgresql']['server']['config_change_notify'], "template[/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf]"
+  subscribes node['postgresql']['server']['config_change_notify'], "template[/etc/postgresql/#{node['postgresql']['version']}/main/pg_hba.conf]", :immediately
 end
