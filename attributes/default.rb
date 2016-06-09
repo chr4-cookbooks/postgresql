@@ -21,6 +21,9 @@
 # The postgresql version to use
 default['postgresql']['version'] = '9.5'
 
+# Version of postgis to use
+default['postgresql']['postgis']['version'] = '2.2'
+
 # Path to configuration directory.
 # Not used by this cookbook, but present for compatibility reasons with the heavywater cookbook.
 default['postgresql']['dir'] = "/etc/postgresql/#{node['postgresql']['version']}/main"
