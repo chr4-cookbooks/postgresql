@@ -33,6 +33,27 @@ standby_mode = 'on'
 recovery_target_timeline = 'latest'
 <% end %>
 
+<% if node['postgresql']['recovery']['recovery_target_action'] %>
+# Specifies what action the server should take once the recovery target is reached. The default is
+# pause, which means recovery will be paused. promote means the recovery process will finish and the
+# server will start to accept connections. Finally shutdown will stop the server after reaching the
+# recovery target.
+# The intended use of the pause setting is to allow queries to be executed against the database to
+# check if this recovery target is the most desirable point for recovery. The paused state can be
+# resumed by using pg_xlog_replay_resume() (see Table 9-70), which then causes recovery to end. If
+# this recovery target is not the desired stopping point, then shut down the server, change the
+# recovery target settings to a later target and restart to continue recovery.
+# The shutdown setting is useful to have the instance ready at the exact replay point desired. The
+# instance will still be able to replay more WAL records (and in fact will have to replay WAL
+# records since the last checkpoint next time it is started).
+# Note that because recovery.conf will not be renamed when recovery_target_action is set to
+# shutdown, any subsequent start will end with immediate shutdown unless the configuration is
+# changed or the recovery.conf file is removed manually.
+# This setting has no effect if no recovery target is set. If hot_standby is not enabled, a setting
+# of pause will act the same as shutdown.
+recovery_target_action = <%= node['postgresql']['recovery']['recovery_target_action'] %>
+<% end %>
+
 <% if node['postgresql']['recovery']['pause_at_recovery_target'] %>
 # Specifies whether recovery should pause when the recovery target is reached. The default is true.
 # This is intended to allow queries to be executed against the database to check if this recovery
@@ -40,5 +61,7 @@ recovery_target_timeline = 'latest'
 # pg_xlog_replay_resume() (See Table 9-59), which then causes recovery to end. If this recovery
 # target is not the desired stopping point, then shutdown the server, change the recovery target
 # settings to a later target and restart to continue recovery.
+#
+# Note: This setting was removed in postgresql-9.5 and replaced with recovery_target_action
 pause_at_recovery_target = <%= node['postgresql']['recovery']['pause_at_recovery_target'] %>
 <% end %>

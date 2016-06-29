@@ -53,11 +53,3 @@ default['postgresql']['recovery']['recovery_target_time'] = false
 # recovery_target_name or recovery_target_time can be specified. The default is to recover to the
 # end of the WAL log. The precise stopping point is also influenced by recovery_target_inclusive.
 default['postgresql']['recovery']['recovery_target_xid'] = false
-
-# Specifies whether recovery should pause when the recovery target is reached. The default is true.
-# This is intended to allow queries to be executed against the database to check if this recovery
-# target is the most desirable point for recovery. The paused state can be resumed by using
-# pg_xlog_replay_resume() (See Table 9-59), which then causes recovery to end. If this recovery
-# target is not the desired stopping point, then shutdown the server, change the recovery target
-# settings to a later target and restart to continue recovery.
-default['postgresql']['recovery']['pause_at_recovery_target'] = false
