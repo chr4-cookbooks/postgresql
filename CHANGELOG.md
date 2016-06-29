@@ -3,6 +3,10 @@ postgresql CHANGELOG
 
 This file is used to list changes made in each version of the postgresql cookbook.
 
+5.0.1
+-----
+- Add `recovery_target_action` attribute, introduced with postgresql-9.5 (replaces `pause_at_recovery_target`)
+
 5.0.0
 -----
 - Initial release of postgresql
