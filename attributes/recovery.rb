@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: postgresql
-# Attributes:: default
+# Attributes:: recovery
 #
 # Copyright 2016, Chris Aumann
 #
