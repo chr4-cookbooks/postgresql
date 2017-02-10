@@ -6,6 +6,6 @@ description      'Installs/Configures postgresql'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 source_url       'https://github.com/chr4-cookbooks/postgresql' if respond_to?(:source_url)
 issues_url       'https://github.com/chr4-cookbooks/postgresql/issues' if respond_to?(:issues_url)
-version          '5.0.1'
+version          '6.0.0'
 depends          'certificate'
 depends          'build-essential'
