@@ -19,7 +19,7 @@
 #
 
 # The postgresql version to use
-default['postgresql']['version'] = '9.5'
+default['postgresql']['version'] = '9.6'
 
 # Version of postgis to use
 default['postgresql']['postgis']['version'] = '2.2'
